@@ -1,0 +1,8 @@
+services:
+  advent_of_code:
+    container_name: "advent_of_code"
+    image: "golang"
+    working_dir: "/go/src"
+    volumes:
+      - ".:/go/src"
+    tty: true
