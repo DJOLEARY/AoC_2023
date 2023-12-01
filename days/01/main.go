@@ -7,83 +7,83 @@ import (
 	"strings"
 )
 
-func main () {
-    filename := "input.txt"
-    content := read_file(filename)
+func main() {
+	filename := "input.txt"
+	content := read_file(filename)
 
-    numbers := []int{}
+	numbers := []int{}
 
-    lines := strings.Split(content, "\n")
-    for _, line := range lines {
-        first_num, last_num, err := find_numbers(line)
+	lines := strings.Split(content, "\n")
+	for _, line := range lines {
+		first_num, last_num, err := find_numbers(line)
 
-        if err != nil {
-            continue
-        }
+		if err != nil {
+			continue
+		}
 
-        num_str := first_num + last_num
-        num := strToInt(num_str)
-        numbers = append(numbers, num)
-    }
+		num_str := first_num + last_num
+		num := strToInt(num_str)
+		numbers = append(numbers, num)
+	}
 
-    acc := accumulate(numbers)
+	acc := accumulate(numbers)
 
-    println(acc)
+	println(acc)
 }
 
 func read_file(filename string) string {
-    content, err := os.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 
-    check(err)
+	check(err)
 
-    return string(content)
+	return string(content)
 }
 
 func find_numbers(line string) (string, string, error) {
-    if line == "" || line == "\n" {
-        return "", "", errors.New("Empty line")
-    }
+	if line == "" || line == "\n" {
+		return "", "", errors.New("Empty line")
+	}
 
-    first := ""
-    last := ""
+	first := ""
+	last := ""
 
-    chars := strings.Split(line, "")
-    for _, char := range chars {
-        is_numeric := strings.Contains("0123456789", char)
-        if !is_numeric {
-            continue
-        }
+	chars := strings.Split(line, "")
+	for _, char := range chars {
+		is_numeric := strings.Contains("0123456789", char)
+		if !is_numeric {
+			continue
+		}
 
-        if first == "" {
-            first = char
-        }
+		if first == "" {
+			first = char
+		}
 
-        last = char
-    }
+		last = char
+	}
 
-    return first, last, nil
+	return first, last, nil
 }
 
 func accumulate(numbers []int) int {
-    acc := 0
+	acc := 0
 
-    for _, num := range numbers {
-        acc += num
-    }
+	for _, num := range numbers {
+		acc += num
+	}
 
-    return acc
+	return acc
 }
 
 func check(err error) {
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 }
 
 func strToInt(str string) int {
-    num, err := strconv.ParseInt(str, 0, 0)
+	num, err := strconv.ParseInt(str, 0, 0)
 
-    check(err)
+	check(err)
 
-    return int(num)
+	return int(num)
 }
