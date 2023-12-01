@@ -34,7 +34,9 @@ func main() {
 func read_file(filename string) string {
 	content, err := os.ReadFile(filename)
 
-	check(err)
+	if err != nil {
+		panic(err)
+	}
 
 	return string(content)
 }
@@ -103,16 +105,12 @@ func accumulate(numbers []int) int {
 	return acc
 }
 
-func check(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
 func strToInt(str string) int {
 	num, err := strconv.ParseInt(str, 0, 0)
 
-	check(err)
+	if err != nil {
+		panic(err)
+	}
 
 	return int(num)
 }
