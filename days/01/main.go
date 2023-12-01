@@ -9,13 +9,13 @@ import (
 
 func main() {
 	filename := "input.txt"
-	content := read_file(filename)
+	content := readFile(filename)
 
 	numbers := []int{}
 
 	lines := strings.Split(content, "\n")
 	for _, line := range lines {
-		first_num, last_num, err := find_numbers(line)
+		first_num, last_num, err := findNumbers(line)
 
 		if err != nil {
 			continue
@@ -31,7 +31,7 @@ func main() {
 	println(acc)
 }
 
-func read_file(filename string) string {
+func readFile(filename string) string {
 	content, err := os.ReadFile(filename)
 
 	if err != nil {
@@ -64,7 +64,7 @@ var num_map = map[string]string{
 	"9":     "9",
 }
 
-func find_numbers(line string) (string, string, error) {
+func findNumbers(line string) (string, string, error) {
 	if line == "" || line == "\n" {
 		return "", "", errors.New("Empty line")
 	}
@@ -73,8 +73,8 @@ func find_numbers(line string) (string, string, error) {
 	window_size := 5
 	for i := range line {
 		window_end := i + window_size
-		if window_end > len(line)-1 {
-			window_end = len(line) - 1
+		if window_end > len(line) {
+			window_end = len(line)
 		}
 		sub_str := line[i:window_end]
 
