@@ -20,15 +20,13 @@ func main() {
 	}
 
 	lines := strings.Split(string(contents), "\n")
-	possibleGameIds := processLines(lines)
+	answer := processLines(lines)
 
-	println(accumulate(possibleGameIds))
+	println(answer)
 }
 
-func processLines(lines []string) []int {
-	var possibleGames []int
-
-	maxCubes := cubes{red: 12, blue: 14, green: 13}
+func processLines(lines []string) int {
+	var answer int
 
 	for _, line := range lines {
 		if line == "" || line == "\n" {
@@ -37,14 +35,12 @@ func processLines(lines []string) []int {
 
 		shownCubes := convertLineToCubes(line)
 
-		isPossible := isPossibleGame(shownCubes, maxCubes)
-		if isPossible {
-			gameId := getGameId(line)
-			possibleGames = append(possibleGames, gameId)
-		}
+		maxCubes := getMaximumCubes(shownCubes)
+		power := getPower(maxCubes)
+		answer += power
 	}
 
-	return possibleGames
+	return answer
 }
 
 func convertLineToCubes(line string) []cubes {
@@ -93,46 +89,26 @@ func convertLineToCubes(line string) []cubes {
 	return shownCubes
 }
 
-func isPossibleGame(shownCubes []cubes, maxCubes cubes) bool {
+func getMaximumCubes(shownCubes []cubes) cubes {
+	var maxCubes cubes
+
 	for _, cubes := range shownCubes {
 		if cubes.red > maxCubes.red {
-			return false
+			maxCubes.red = cubes.red
 		}
 
 		if cubes.blue > maxCubes.blue {
-			return false
+			maxCubes.blue = cubes.blue
 		}
 
 		if cubes.green > maxCubes.green {
-			return false
+			maxCubes.green = cubes.green
 		}
 	}
 
-	return true
+	return maxCubes
 }
 
-func getGameId(line string) int {
-	regex := regexp.MustCompile(`^Game (\d+):`)
-	matches := regex.FindStringSubmatch(line)
-	if matches == nil || len(matches) < 2 {
-		println(matches)
-		panic("No game id found in line: '" + line + "'")
-	}
-
-	gameId, err := strconv.Atoi(matches[1])
-	if err != nil {
-		panic("Could not convert game id to int: " + matches[1])
-	}
-
-	return gameId
-}
-
-func accumulate(gameIds []int) int {
-	var acc int
-
-	for _, gameId := range gameIds {
-		acc += gameId
-	}
-
-	return acc
+func getPower(maxCubes cubes) int {
+	return maxCubes.red * maxCubes.blue * maxCubes.green
 }
