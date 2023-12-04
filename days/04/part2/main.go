@@ -59,17 +59,20 @@ func main() {
 
 	lines := strings.Split(string(contents), "\n")
 
-	answer := 0
+	dict := map[int]Card{}
+	var cards []Card
 	for _, line := range lines {
 		if line == "" || line == "\n" {
 			continue
 		}
 
 		card := parseCardLine(line)
-		score := tallyScore(card)
 
-		answer += score
+		dict[card.id] = card
+		cards = append(cards, card)
 	}
+
+	answer := processCards(dict, cards)
 
 	println(answer)
 }
@@ -82,7 +85,7 @@ func parseCardLine(line string) Card {
 
 	// "Card 1"
 	card_parts := strings.Split(filteredLine, ":")[0]
-    id_parts := strings.Split(card_parts, " ")
+	id_parts := strings.Split(card_parts, " ")
 	id := id_parts[len(id_parts)-1]
 	unparsedCard.id = strings.ReplaceAll(id, " ", "")
 
@@ -114,17 +117,26 @@ func parseCardLine(line string) Card {
 	return unparsedCard.parse()
 }
 
-func tallyScore(card Card) int {
-	score := 0
-	for _, winningNumber := range card.winningNumbers {
-		if slices.Contains(card.haveNumbers, winningNumber) {
-			if score == 0 {
-				score = 1
-			} else {
-				score *= 2
-			}
+func processCards(dict map[int]Card, cards []Card) int {
+	for i := 0; i < len(cards); i++ {
+		card := cards[i]
+		matchCount := calculateNumberOfMatches(card)
+		for j := card.id + 1; j < (card.id + 1 + matchCount); j++ {
+			copyCard := dict[j]
+			cards = append(cards, copyCard)
 		}
 	}
 
-	return score
+	return len(cards)
+}
+
+func calculateNumberOfMatches(card Card) int {
+	matchCount := 0
+	for _, winningNumber := range card.winningNumbers {
+		if slices.Contains(card.haveNumbers, winningNumber) {
+			matchCount++
+		}
+	}
+
+	return matchCount
 }
