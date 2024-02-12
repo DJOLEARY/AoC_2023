@@ -1,0 +1,13 @@
+go 1.21.6
+
+use (
+	./day_01
+	./day_02/part1
+	./day_02/part2
+	./day_03/part1
+	./day_04/part1
+	./day_04/part2
+	./day_06/part1
+	./day_06/part2
+	./day_07/part1
+)
