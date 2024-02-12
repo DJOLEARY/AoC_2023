@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  advent_of_code:
+    container_name: AoC
+    image: golang:alpine
+    working_dir: /usr/src/app
+    networks:
+      - gonet
+    volumes:
+      - ./:/usr/src/app
+    tty: "true"
+
+networks:
+  gonet:
+
