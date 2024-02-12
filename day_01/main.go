@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	filename := "input.txt"
+	filename := "./day_01/input.txt"
 	content := readFile(filename)
 
 	numbers := []int{}
