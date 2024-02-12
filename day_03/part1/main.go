@@ -16,9 +16,9 @@ const USE_SAMPLE = true
 func main() {
 	var content []byte
 	if USE_SAMPLE {
-		content, _ = os.ReadFile("sample.txt")
+		content, _ = os.ReadFile("./day_03/part1/sample.txt")
 	} else {
-		content, _ = os.ReadFile("../input.txt")
+		content, _ = os.ReadFile("./day_03/input.txt")
 	}
 	lines := strings.Split(string(content), "\n")
 

@@ -52,9 +52,9 @@ func (c UnparsedCard) parse() Card {
 func main() {
 	var contents []byte
 	if USE_SAMPLE {
-		contents, _ = os.ReadFile("sample.txt")
+		contents, _ = os.ReadFile("./day_04/part2/sample.txt")
 	} else {
-		contents, _ = os.ReadFile("../input.txt")
+		contents, _ = os.ReadFile("./day_04/input.txt")
 	}
 
 	lines := strings.Split(string(contents), "\n")

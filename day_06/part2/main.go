@@ -15,9 +15,9 @@ const USE_SAMPLE = false
 func main() {
 	var filePath string
 	if USE_SAMPLE {
-		filePath = "sample.txt"
+		filePath = "./day_06/part2/sample.txt"
 	} else {
-		filePath = "../input.txt"
+		filePath = "./day_06/input.txt"
 	}
 	contents, _ := os.ReadFile(filePath)
 

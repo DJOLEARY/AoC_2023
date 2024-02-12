@@ -1,3 +1,3 @@
-module day_06/part1
+module day_06/part2
 
 go 1.21.1

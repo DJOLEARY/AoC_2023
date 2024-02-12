@@ -61,9 +61,9 @@ type hand struct {
 func main() {
 	var filePath string
 	if USE_SAMPLE {
-		filePath = "sample.txt"
+		filePath = "./day_07/part1/sample.txt"
 	} else {
-		filePath = "../input.txt"
+		filePath = "./day_07/input.txt"
 	}
 	contents, err := os.ReadFile(filePath)
 	if err != nil {

@@ -14,7 +14,7 @@ type cubes struct {
 }
 
 func main() {
-	contents, err := os.ReadFile("../input.txt")
+	contents, err := os.ReadFile("./day_02/input.txt")
 	if err != nil {
 		panic(err)
 	}
