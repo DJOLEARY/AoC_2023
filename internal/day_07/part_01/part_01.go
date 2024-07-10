@@ -213,8 +213,7 @@ func mapByStrength(hands []hand) map[handType][]hand {
 
 // low to high
 func sortByHighest(hands []hand) []hand {
-	var partition func(arr []hand, low, high int) ([]hand, int)
-	partition = func(arr []hand, low, high int) ([]hand, int) {
+	var partition = func(arr []hand, low, high int) ([]hand, int) {
 		pivot := arr[high]
 		index := low
 
