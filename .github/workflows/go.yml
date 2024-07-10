@@ -34,7 +34,3 @@ jobs:
         name: Coverage
         path: coverage.html
 
-    - name: Coverage Preview
-      uses: pavi2410/html-preview-action@v2
-      with:
-        html_file: 'coverage.html'
