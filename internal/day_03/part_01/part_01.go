@@ -13,12 +13,12 @@ import (
 
 const USE_SAMPLE = true
 
-func main() {
+func Solve() {
 	var content []byte
 	if USE_SAMPLE {
-		content, _ = os.ReadFile("./day_03/part1/sample.txt")
+		content, _ = os.ReadFile("./assets/day_03_part_01_sample.txt")
 	} else {
-		content, _ = os.ReadFile("./day_03/input.txt")
+		content, _ = os.ReadFile("./assets/day_03.txt")
 	}
 	lines := strings.Split(string(content), "\n")
 

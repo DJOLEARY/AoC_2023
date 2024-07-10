@@ -14,7 +14,7 @@ type cubes struct {
 }
 
 func Solve() {
-	contents, err := os.ReadFile("./day_02/input.txt")
+	contents, err := os.ReadFile("./assets/day_02.txt")
 	if err != nil {
 		panic(err)
 	}

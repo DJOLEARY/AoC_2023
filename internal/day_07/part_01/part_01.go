@@ -58,12 +58,12 @@ type hand struct {
  * - 229176554 (too low)
  * - 200253108 (too low)
  */
-func main() {
+func Solve() {
 	var filePath string
 	if USE_SAMPLE {
-		filePath = "./day_07/part1/sample.txt"
+		filePath = "./assets/day_07_part_01_sample.txt"
 	} else {
-		filePath = "./day_07/input.txt"
+		filePath = "./assets/day_07.txt"
 	}
 	contents, err := os.ReadFile(filePath)
 	if err != nil {

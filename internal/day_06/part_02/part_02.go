@@ -12,12 +12,12 @@ const USE_SAMPLE = false
  * Tried:
  * - 24655068 (correct!)
  */
-func main() {
+func Solve() {
 	var filePath string
 	if USE_SAMPLE {
-		filePath = "./day_06/part2/sample.txt"
+		filePath = "./assets/day_06_part_02_sample.txt"
 	} else {
-		filePath = "./day_06/input.txt"
+		filePath = "./assets/day_06.txt"
 	}
 	contents, _ := os.ReadFile(filePath)
 

@@ -49,12 +49,12 @@ func (c UnparsedCard) parse() Card {
 	return card
 }
 
-func main() {
+func Solve() {
 	var contents []byte
 	if USE_SAMPLE {
-		contents, _ = os.ReadFile("./day_04/part2/sample.txt")
+		contents, _ = os.ReadFile("./assets/day_04_part_02_sample.txt")
 	} else {
-		contents, _ = os.ReadFile("./day_04/input.txt")
+		contents, _ = os.ReadFile("./assets/day_04.txt")
 	}
 
 	lines := strings.Split(string(contents), "\n")
