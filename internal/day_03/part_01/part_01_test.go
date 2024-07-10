@@ -55,7 +55,11 @@ func TestCheckValidity(t *testing.T) {
 }
 
 func getSampleLines() []string {
-	contents, _ := os.ReadFile("sample.txt")
+	contents, err := os.ReadFile("../../../assets/day_03_part_01_sample.txt")
+	if err != nil {
+		panic(err)
+	}
+
 	lines := strings.Split(string(contents), "\n")
 
 	var filteredLines []string
