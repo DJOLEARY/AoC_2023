@@ -22,4 +22,19 @@ jobs:
         go-version: '1.22.x'
 
     - name: Test
-      run: go test ./...
+      run: go test -v -coverprofile coverage.out ./...
+
+    - name: Convert coverage report to HTML
+      run: go tool cover -html coverage.out -o coverage.html
+      if: always()
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: Coverage
+        path: coverage.html
+
+    - name: Coverage Preview
+      uses: pavi2410/html-preview-action@v2
+      with:
+        html_file: 'coverage.html'
