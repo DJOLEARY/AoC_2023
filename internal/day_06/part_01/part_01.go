@@ -37,12 +37,12 @@ func Solve() {
 
 func parseTimeLine(timeLine string) []int {
 	prefix := "Time:"
-    return parseLine(prefix, timeLine)
+	return parseLine(prefix, timeLine)
 }
 
 func parseDistanceLine(distLine string) []int {
 	prefix := "Distance:"
-    return parseLine(prefix, distLine)
+	return parseLine(prefix, distLine)
 }
 
 func parseLine(prefix string, line string) []int {
@@ -61,7 +61,7 @@ func parseLine(prefix string, line string) []int {
 
 func calculateAnswer(times []int, distances []int) int {
 	answer := 1
-    for i, maxTime := range times {
+	for i, maxTime := range times {
 		recordDistance := distances[i]
 
 		var greaterThanRecord []int

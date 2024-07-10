@@ -82,7 +82,7 @@ func parseCardLine(line string) Card {
 
 	// "Card 1"
 	card_parts := strings.Split(filteredLine, ":")[0]
-    id_parts := strings.Split(card_parts, " ")
+	id_parts := strings.Split(card_parts, " ")
 	id := id_parts[len(id_parts)-1]
 	unparsedCard.id = strings.ReplaceAll(id, " ", "")
 

@@ -8,7 +8,7 @@ type data struct {
 	gameId     int
 	isPossible bool
 	shownCubes []cubes
-	line	   string
+	line       string
 }
 
 var testInput = []data{
@@ -64,7 +64,7 @@ var testInput = []data{
 }
 
 func TestConvertLineToCubes(t *testing.T) {
-    for _, data := range testInput {
+	for _, data := range testInput {
 		actualCubes := convertLineToCubes(data.line)
 
 		if len(data.shownCubes) != len(actualCubes) {

@@ -18,7 +18,7 @@ var testInput = []data{
 			{green: 2},
 		},
 		maxCubes: cubes{red: 4, blue: 6, green: 2},
-		line: "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
+		line:     "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
 	},
 	{
 		shownCubes: []cubes{
@@ -27,7 +27,7 @@ var testInput = []data{
 			{blue: 1, green: 1},
 		},
 		maxCubes: cubes{red: 1, blue: 4, green: 3},
-		line: "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
+		line:     "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
 	},
 	{
 		shownCubes: []cubes{
@@ -36,7 +36,7 @@ var testInput = []data{
 			{red: 1, green: 5},
 		},
 		maxCubes: cubes{red: 20, blue: 6, green: 13},
-		line: "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
+		line:     "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
 	},
 	{
 		shownCubes: []cubes{
@@ -45,7 +45,7 @@ var testInput = []data{
 			{red: 14, blue: 15, green: 3},
 		},
 		maxCubes: cubes{red: 14, blue: 15, green: 3},
-		line: "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
+		line:     "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
 	},
 	{
 		shownCubes: []cubes{
@@ -53,7 +53,7 @@ var testInput = []data{
 			{red: 1, blue: 2, green: 2},
 		},
 		maxCubes: cubes{red: 6, blue: 2, green: 3},
-		line: "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
+		line:     "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
 	},
 }
 
@@ -74,11 +74,11 @@ func TestConvertLineToCubes(t *testing.T) {
 }
 
 func TestGetMaximumCubes(t *testing.T) {
-    for _, data := range testInput {
-        actualMaxCubes := getMaximumCubes(data.shownCubes)
+	for _, data := range testInput {
+		actualMaxCubes := getMaximumCubes(data.shownCubes)
 
-	if actualMaxCubes != data.maxCubes {
-		t.Errorf("Expected maxCubes to be %v, got %v", data.maxCubes, actualMaxCubes)
+		if actualMaxCubes != data.maxCubes {
+			t.Errorf("Expected maxCubes to be %v, got %v", data.maxCubes, actualMaxCubes)
+		}
 	}
-    }
 }
