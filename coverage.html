@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>day_01: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/DJOLEARY/AoC_2023/internal/day_01/day_01.go (35.7%)</option>
+				
+				<option value="file1">github.com/DJOLEARY/AoC_2023/internal/day_02/part_01/part_01.go (54.7%)</option>
+				
+				<option value="file2">github.com/DJOLEARY/AoC_2023/internal/day_02/part_02/part_02.go (62.7%)</option>
+				
+				<option value="file3">github.com/DJOLEARY/AoC_2023/internal/day_03/part_01/part_01.go (75.9%)</option>
+				
+				<option value="file4">github.com/DJOLEARY/AoC_2023/internal/day_04/part_01/part_01.go (71.4%)</option>
+				
+				<option value="file5">github.com/DJOLEARY/AoC_2023/internal/day_04/part_02/part_02.go (71.4%)</option>
+				
+				<option value="file6">github.com/DJOLEARY/AoC_2023/internal/day_06/part_01/part_01.go (66.7%)</option>
+				
+				<option value="file7">github.com/DJOLEARY/AoC_2023/internal/day_06/part_02/part_02.go (61.8%)</option>
+				
+				<option value="file8">github.com/DJOLEARY/AoC_2023/internal/day_07/part_01/part_01.go (72.3%)</option>
+				
+				<option value="file9">github.com/DJOLEARY/AoC_2023/main.go (0.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package day_01
+
+import (
+        "errors"
+        "os"
+        "strconv"
+        "strings"
+)
+
+func Solve() <span class="cov0" title="0">{
+        filename := "./assets/day_01.txt"
+        content := readFile(filename)
+
+        numbers := []int{}
+
+        lines := strings.Split(content, "\n")
+        for _, line := range lines </span><span class="cov0" title="0">{
+                first_num, last_num, err := findNumbers(line)
+
+                if err != nil </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">num_str := first_num + last_num
+                num := strToInt(num_str)
+                numbers = append(numbers, num)</span>
+        }
+
+        <span class="cov0" title="0">acc := accumulate(numbers)
+
+        println(acc)</span>
+}
+
+func readFile(filename string) string <span class="cov0" title="0">{
+        content, err := os.ReadFile(filename)
+
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov0" title="0">return string(content)</span>
+}
+
+var num_map = map[string]string{
+        "zero":  "0",
+        "0":     "0",
+        "one":   "1",
+        "1":     "1",
+        "two":   "2",
+        "2":     "2",
+        "three": "3",
+        "3":     "3",
+        "four":  "4",
+        "4":     "4",
+        "five":  "5",
+        "5":     "5",
+        "six":   "6",
+        "6":     "6",
+        "seven": "7",
+        "7":     "7",
+        "eight": "8",
+        "8":     "8",
+        "nine":  "9",
+        "9":     "9",
+}
+
+func findNumbers(line string) (string, string, error) <span class="cov8" title="1">{
+        if line == "" || line == "\n" </span><span class="cov0" title="0">{
+                return "", "", errors.New("Empty line")
+        }</span>
+
+        <span class="cov8" title="1">found_numbers := []string{}
+        window_size := 5
+        for i := range line </span><span class="cov8" title="1">{
+                window_end := i + window_size
+                if window_end &gt; len(line) </span><span class="cov8" title="1">{
+                        window_end = len(line)
+                }</span>
+                <span class="cov8" title="1">sub_str := line[i:window_end]
+
+                for key, value := range num_map </span><span class="cov8" title="1">{
+                        if strings.HasPrefix(sub_str, key) </span><span class="cov8" title="1">{
+                                found_numbers = append(found_numbers, value)
+                        }</span>
+                }
+        }
+
+        <span class="cov8" title="1">if len(found_numbers) == 0 </span><span class="cov0" title="0">{
+                return "", "", errors.New("No numbers found")
+        }</span>
+
+        <span class="cov8" title="1">first := found_numbers[0]
+        last := found_numbers[len(found_numbers)-1]
+
+        return first, last, nil</span>
+}
+
+func accumulate(numbers []int) int <span class="cov0" title="0">{
+        acc := 0
+
+        for _, num := range numbers </span><span class="cov0" title="0">{
+                acc += num
+        }</span>
+
+        <span class="cov0" title="0">return acc</span>
+}
+
+func strToInt(str string) int <span class="cov0" title="0">{
+        num, err := strconv.ParseInt(str, 0, 0)
+
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov0" title="0">return int(num)</span>
+}
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package part_01
+
+import (
+        "os"
+        "regexp"
+        "strconv"
+        "strings"
+)
+
+type cubes struct {
+        red   int
+        blue  int
+        green int
+}
+
+func Solve() <span class="cov0" title="0">{
+        contents, err := os.ReadFile("./assets/day_02.txt")
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov0" title="0">lines := strings.Split(string(contents), "\n")
+        possibleGameIds := processLines(lines)
+
+        println(accumulate(possibleGameIds))</span>
+}
+
+func processLines(lines []string) []int <span class="cov0" title="0">{
+        var possibleGames []int
+
+        maxCubes := cubes{red: 12, blue: 14, green: 13}
+
+        for _, line := range lines </span><span class="cov0" title="0">{
+                if line == "" || line == "\n" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">shownCubes := convertLineToCubes(line)
+
+                isPossible := isPossibleGame(shownCubes, maxCubes)
+                if isPossible </span><span class="cov0" title="0">{
+                        gameId := getGameId(line)
+                        possibleGames = append(possibleGames, gameId)
+                }</span>
+        }
+
+        <span class="cov0" title="0">return possibleGames</span>
+}
+
+func convertLineToCubes(line string) []cubes <span class="cov8" title="1">{
+        var shownCubes []cubes
+
+        redRegex := regexp.MustCompile(`(\d+) red`)
+        blueRegex := regexp.MustCompile(`(\d+) blue`)
+        greenRegex := regexp.MustCompile(`(\d+) green`)
+
+        for _, round := range strings.Split(line, ";") </span><span class="cov8" title="1">{
+                var cubes cubes
+
+                redMatches := redRegex.FindStringSubmatch(round)
+                if redMatches != nil </span><span class="cov8" title="1">{
+                        red, err := strconv.Atoi(redMatches[1])
+                        if err != nil </span><span class="cov0" title="0">{
+                                panic("Could not convert red to int: " + redMatches[1])</span>
+                        } else<span class="cov8" title="1"> {
+                                cubes.red = red
+                        }</span>
+                }
+
+                <span class="cov8" title="1">blueMatches := blueRegex.FindStringSubmatch(round)
+                if blueMatches != nil </span><span class="cov8" title="1">{
+                        blue, err := strconv.Atoi(blueMatches[1])
+                        if err != nil </span><span class="cov0" title="0">{
+                                panic("Could not convert green to int: " + blueMatches[1])</span>
+                        } else<span class="cov8" title="1"> {
+                                cubes.blue = blue
+                        }</span>
+                }
+
+                <span class="cov8" title="1">greenMatches := greenRegex.FindStringSubmatch(round)
+                if greenMatches != nil </span><span class="cov8" title="1">{
+                        green, err := strconv.Atoi(greenMatches[1])
+                        if err != nil </span><span class="cov0" title="0">{
+                                panic("Could not convert green to int: " + greenMatches[1])</span>
+                        } else<span class="cov8" title="1"> {
+                                cubes.green = green
+                        }</span>
+                }
+
+                <span class="cov8" title="1">shownCubes = append(shownCubes, cubes)</span>
+        }
+
+        <span class="cov8" title="1">return shownCubes</span>
+}
+
+func isPossibleGame(shownCubes []cubes, maxCubes cubes) bool <span class="cov8" title="1">{
+        for _, cubes := range shownCubes </span><span class="cov8" title="1">{
+                if cubes.red &gt; maxCubes.red </span><span class="cov8" title="1">{
+                        return false
+                }</span>
+
+                <span class="cov8" title="1">if cubes.blue &gt; maxCubes.blue </span><span class="cov0" title="0">{
+                        return false
+                }</span>
+
+                <span class="cov8" title="1">if cubes.green &gt; maxCubes.green </span><span class="cov0" title="0">{
+                        return false
+                }</span>
+        }
+
+        <span class="cov8" title="1">return true</span>
+}
+
+func getGameId(line string) int <span class="cov8" title="1">{
+        regex := regexp.MustCompile(`^Game (\d+):`)
+        matches := regex.FindStringSubmatch(line)
+        if matches == nil || len(matches) &lt; 2 </span><span class="cov0" title="0">{
+                println(matches)
+                panic("No game id found in line: '" + line + "'")</span>
+        }
+
+        <span class="cov8" title="1">gameId, err := strconv.Atoi(matches[1])
+        if err != nil </span><span class="cov0" title="0">{
+                panic("Could not convert game id to int: " + matches[1])</span>
+        }
+
+        <span class="cov8" title="1">return gameId</span>
+}
+
+func accumulate(gameIds []int) int <span class="cov0" title="0">{
+        var acc int
+
+        for _, gameId := range gameIds </span><span class="cov0" title="0">{
+                acc += gameId
+        }</span>
+
+        <span class="cov0" title="0">return acc</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package part_02
+
+import (
+        "os"
+        "regexp"
+        "strconv"
+        "strings"
+)
+
+type cubes struct {
+        red   int
+        blue  int
+        green int
+}
+
+func Solve() <span class="cov0" title="0">{
+        contents, err := os.ReadFile("./assets/day_02.txt")
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov0" title="0">lines := strings.Split(string(contents), "\n")
+        answer := processLines(lines)
+
+        println(answer)</span>
+}
+
+func processLines(lines []string) int <span class="cov0" title="0">{
+        var answer int
+
+        for _, line := range lines </span><span class="cov0" title="0">{
+                if line == "" || line == "\n" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">shownCubes := convertLineToCubes(line)
+
+                maxCubes := getMaximumCubes(shownCubes)
+                power := getPower(maxCubes)
+                answer += power</span>
+        }
+
+        <span class="cov0" title="0">return answer</span>
+}
+
+func convertLineToCubes(line string) []cubes <span class="cov8" title="1">{
+        var shownCubes []cubes
+
+        redRegex := regexp.MustCompile(`(\d+) red`)
+        blueRegex := regexp.MustCompile(`(\d+) blue`)
+        greenRegex := regexp.MustCompile(`(\d+) green`)
+
+        for _, round := range strings.Split(line, ";") </span><span class="cov8" title="1">{
+                var cubes cubes
+
+                redMatches := redRegex.FindStringSubmatch(round)
+                if redMatches != nil </span><span class="cov8" title="1">{
+                        red, err := strconv.Atoi(redMatches[1])
+                        if err != nil </span><span class="cov0" title="0">{
+                                panic("Could not convert red to int: " + redMatches[1])</span>
+                        } else<span class="cov8" title="1"> {
+                                cubes.red = red
+                        }</span>
+                }
+
+                <span class="cov8" title="1">blueMatches := blueRegex.FindStringSubmatch(round)
+                if blueMatches != nil </span><span class="cov8" title="1">{
+                        blue, err := strconv.Atoi(blueMatches[1])
+                        if err != nil </span><span class="cov0" title="0">{
+                                panic("Could not convert green to int: " + blueMatches[1])</span>
+                        } else<span class="cov8" title="1"> {
+                                cubes.blue = blue
+                        }</span>
+                }
+
+                <span class="cov8" title="1">greenMatches := greenRegex.FindStringSubmatch(round)
+                if greenMatches != nil </span><span class="cov8" title="1">{
+                        green, err := strconv.Atoi(greenMatches[1])
+                        if err != nil </span><span class="cov0" title="0">{
+                                panic("Could not convert green to int: " + greenMatches[1])</span>
+                        } else<span class="cov8" title="1"> {
+                                cubes.green = green
+                        }</span>
+                }
+
+                <span class="cov8" title="1">shownCubes = append(shownCubes, cubes)</span>
+        }
+
+        <span class="cov8" title="1">return shownCubes</span>
+}
+
+func getMaximumCubes(shownCubes []cubes) cubes <span class="cov8" title="1">{
+        var maxCubes cubes
+
+        for _, cubes := range shownCubes </span><span class="cov8" title="1">{
+                if cubes.red &gt; maxCubes.red </span><span class="cov8" title="1">{
+                        maxCubes.red = cubes.red
+                }</span>
+
+                <span class="cov8" title="1">if cubes.blue &gt; maxCubes.blue </span><span class="cov8" title="1">{
+                        maxCubes.blue = cubes.blue
+                }</span>
+
+                <span class="cov8" title="1">if cubes.green &gt; maxCubes.green </span><span class="cov8" title="1">{
+                        maxCubes.green = cubes.green
+                }</span>
+        }
+
+        <span class="cov8" title="1">return maxCubes</span>
+}
+
+func getPower(maxCubes cubes) int <span class="cov0" title="0">{
+        return maxCubes.red * maxCubes.blue * maxCubes.green
+}</span>
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package part_01
+
+/**
+ * TRIED:
+ * 530923
+ */
+
+import (
+        "os"
+        "strconv"
+        "strings"
+)
+
+const USE_SAMPLE = true
+
+func Solve() <span class="cov0" title="0">{
+        var content []byte
+        if USE_SAMPLE </span><span class="cov0" title="0">{
+                content, _ = os.ReadFile("./assets/day_03_part_01_sample.txt")
+        }</span> else<span class="cov0" title="0"> {
+                content, _ = os.ReadFile("./assets/day_03.txt")
+        }</span>
+        <span class="cov0" title="0">lines := strings.Split(string(content), "\n")
+
+        validNumbers := walkLines(lines)
+
+        answer := 0
+        for _, number := range validNumbers </span><span class="cov0" title="0">{
+                answer += number
+        }</span>
+
+        <span class="cov0" title="0">println(answer)</span>
+}
+
+func walkLines(lines []string) []int <span class="cov8" title="1">{
+        var validNumbers []int
+
+        for y := 0; y &lt; len(lines); y++ </span><span class="cov8" title="1">{
+                line := lines[y]
+
+                if line == "" || line == "\n" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                // Counts as a symbol...
+                <span class="cov8" title="1">filteredLine := strings.ReplaceAll(line, "\r", "")
+
+                previousWasNumber := false
+                number := ""
+                for x := 0; x &lt; len(filteredLine); x++ </span><span class="cov8" title="1">{
+                        char := filteredLine[x]
+
+                        _, err := strconv.Atoi(string(char))
+                        isNumeric := err == nil
+
+                        if isNumeric </span><span class="cov8" title="1">{
+                                previousWasNumber = true
+                                number += string(char)
+                                continue</span>
+                        }
+
+                        <span class="cov8" title="1">if !previousWasNumber </span><span class="cov8" title="1">{
+                                continue</span>
+                        }
+
+                        <span class="cov8" title="1">isValid := checkValidity(lines, x, y, len(number))
+                        if isValid </span><span class="cov8" title="1">{
+                                num, _ := strconv.Atoi(number)
+                                validNumbers = append(validNumbers, num)
+                        }</span>
+
+                        <span class="cov8" title="1">println(number)
+
+                        previousWasNumber = false
+                        number = ""</span>
+                }
+        }
+
+        <span class="cov8" title="1">return validNumbers</span>
+}
+
+// N = number
+// k = numOfDigits + 1
+// (x-k,y-1) (x-1,y-1) ( x ,y-1)
+// (x-k, y )     N     ( x , y )
+// (x-k,y+1) (x-1,y+1) ( x ,y+1)
+func checkValidity(lines []string, x int, y int, numOfDigits int) bool <span class="cov8" title="1">{
+
+        for i := max(y-1, 0); i &lt;= y+1; i++ </span><span class="cov8" title="1">{
+
+                var debugLine string
+
+                for j := max(x-(numOfDigits+1), 0); j &lt;= x; j++ </span><span class="cov8" title="1">{
+
+                        if lineExists := len(lines) &gt; i; !lineExists </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov8" title="1">if charExists := len(lines[i]) &gt; j; !charExists </span><span class="cov0" title="0">{
+                                continue</span>
+                        }
+
+                        <span class="cov8" title="1">char := rune(lines[i][j])
+                        debugLine += string(char)
+
+                        if char == '.' </span><span class="cov8" title="1">{
+                                continue</span>
+                        }
+
+                        <span class="cov8" title="1">_, err := strconv.Atoi(string(char))
+                        isNumeric := err == nil
+                        if isNumeric </span><span class="cov8" title="1">{
+                                continue</span>
+                        }
+
+                        <span class="cov8" title="1">debugLine = ""
+
+                        return true</span>
+                }
+        }
+
+        <span class="cov8" title="1">return false</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package part_01
+
+import (
+        "os"
+        "slices"
+        "strconv"
+        "strings"
+)
+
+const USE_SAMPLE = false
+
+type UnparsedCard struct {
+        id             string
+        winningNumbers []string
+        haveNumbers    []string
+}
+
+type Card struct {
+        id             int
+        winningNumbers []int
+        haveNumbers    []int
+}
+
+func (c UnparsedCard) parse() Card <span class="cov8" title="1">{
+        var card Card
+
+        id, err := strconv.Atoi(c.id)
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+        <span class="cov8" title="1">card.id = id
+
+        for _, number := range c.winningNumbers </span><span class="cov8" title="1">{
+                num, err := strconv.Atoi(number)
+                if err != nil </span><span class="cov0" title="0">{
+                        panic(err)</span>
+                }
+                <span class="cov8" title="1">card.winningNumbers = append(card.winningNumbers, num)</span>
+        }
+
+        <span class="cov8" title="1">for _, number := range c.haveNumbers </span><span class="cov8" title="1">{
+                num, err := strconv.Atoi(number)
+                if err != nil </span><span class="cov0" title="0">{
+                        panic(err)</span>
+                }
+                <span class="cov8" title="1">card.haveNumbers = append(card.haveNumbers, num)</span>
+        }
+
+        <span class="cov8" title="1">return card</span>
+}
+
+func Solve() <span class="cov0" title="0">{
+        var contents []byte
+        if USE_SAMPLE </span><span class="cov0" title="0">{
+                contents, _ = os.ReadFile("./assets/day_04_part_01_sample.txt")
+        }</span> else<span class="cov0" title="0"> {
+                contents, _ = os.ReadFile("./assets/day_04.txt")
+        }</span>
+
+        <span class="cov0" title="0">lines := strings.Split(string(contents), "\n")
+
+        answer := 0
+        for _, line := range lines </span><span class="cov0" title="0">{
+                if line == "" || line == "\n" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">card := parseCardLine(line)
+                score := tallyScore(card)
+
+                answer += score</span>
+        }
+
+        <span class="cov0" title="0">println(answer)</span>
+}
+
+// "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+func parseCardLine(line string) Card <span class="cov8" title="1">{
+        var unparsedCard UnparsedCard
+
+        filteredLine := strings.ReplaceAll(line, "\r", "")
+
+        // "Card 1"
+        card_parts := strings.Split(filteredLine, ":")[0]
+        id_parts := strings.Split(card_parts, " ")
+        id := id_parts[len(id_parts)-1]
+        unparsedCard.id = strings.ReplaceAll(id, " ", "")
+
+        // "41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+        numbers := strings.Split(filteredLine, ":")[1]
+
+        // " 41 48 83 86 17"
+        winningNumberString := strings.Split(numbers, "|")[0]
+        // ["", "41", "48", "83", "86", "17"]
+        winningNumbers := strings.Split(winningNumberString, " ")
+        for _, num := range winningNumbers </span><span class="cov8" title="1">{
+                if num == "" || num == " " </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">unparsedCard.winningNumbers = append(unparsedCard.winningNumbers, num)</span>
+        }
+
+        // " 83 86  6 31 17  9 48 53"
+        <span class="cov8" title="1">haveNumberString := strings.Split(numbers, "|")[1]
+        // ["", "83", "86", "", "6", "31", "17", "", "9", "48", "53"]
+        haveNumbers := strings.Split(haveNumberString, " ")
+        for _, num := range haveNumbers </span><span class="cov8" title="1">{
+                if num == "" || num == " " </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">unparsedCard.haveNumbers = append(unparsedCard.haveNumbers, num)</span>
+        }
+
+        <span class="cov8" title="1">return unparsedCard.parse()</span>
+}
+
+func tallyScore(card Card) int <span class="cov8" title="1">{
+        score := 0
+        for _, winningNumber := range card.winningNumbers </span><span class="cov8" title="1">{
+                if slices.Contains(card.haveNumbers, winningNumber) </span><span class="cov8" title="1">{
+                        if score == 0 </span><span class="cov8" title="1">{
+                                score = 1
+                        }</span> else<span class="cov8" title="1"> {
+                                score *= 2
+                        }</span>
+                }
+        }
+
+        <span class="cov8" title="1">return score</span>
+}
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package part_02
+
+import (
+        "os"
+        "slices"
+        "strconv"
+        "strings"
+)
+
+const USE_SAMPLE = false
+
+type UnparsedCard struct {
+        id             string
+        winningNumbers []string
+        haveNumbers    []string
+}
+
+type Card struct {
+        id             int
+        winningNumbers []int
+        haveNumbers    []int
+}
+
+func (c UnparsedCard) parse() Card <span class="cov8" title="1">{
+        var card Card
+
+        id, err := strconv.Atoi(c.id)
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+        <span class="cov8" title="1">card.id = id
+
+        for _, number := range c.winningNumbers </span><span class="cov8" title="1">{
+                num, err := strconv.Atoi(number)
+                if err != nil </span><span class="cov0" title="0">{
+                        panic(err)</span>
+                }
+                <span class="cov8" title="1">card.winningNumbers = append(card.winningNumbers, num)</span>
+        }
+
+        <span class="cov8" title="1">for _, number := range c.haveNumbers </span><span class="cov8" title="1">{
+                num, err := strconv.Atoi(number)
+                if err != nil </span><span class="cov0" title="0">{
+                        panic(err)</span>
+                }
+                <span class="cov8" title="1">card.haveNumbers = append(card.haveNumbers, num)</span>
+        }
+
+        <span class="cov8" title="1">return card</span>
+}
+
+func Solve() <span class="cov0" title="0">{
+        var contents []byte
+        if USE_SAMPLE </span><span class="cov0" title="0">{
+                contents, _ = os.ReadFile("./assets/day_04_part_02_sample.txt")
+        }</span> else<span class="cov0" title="0"> {
+                contents, _ = os.ReadFile("./assets/day_04.txt")
+        }</span>
+
+        <span class="cov0" title="0">lines := strings.Split(string(contents), "\n")
+
+        dict := map[int]Card{}
+        var cards []Card
+        for _, line := range lines </span><span class="cov0" title="0">{
+                if line == "" || line == "\n" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">card := parseCardLine(line)
+
+                dict[card.id] = card
+                cards = append(cards, card)</span>
+        }
+
+        <span class="cov0" title="0">answer := processCards(dict, cards)
+
+        println(answer)</span>
+}
+
+// "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+func parseCardLine(line string) Card <span class="cov8" title="1">{
+        var unparsedCard UnparsedCard
+
+        filteredLine := strings.ReplaceAll(line, "\r", "")
+
+        // "Card 1"
+        card_parts := strings.Split(filteredLine, ":")[0]
+        id_parts := strings.Split(card_parts, " ")
+        id := id_parts[len(id_parts)-1]
+        unparsedCard.id = strings.ReplaceAll(id, " ", "")
+
+        // "41 48 83 86 17 | 83 86  6 31 17  9 48 53"
+        numbers := strings.Split(filteredLine, ":")[1]
+
+        // " 41 48 83 86 17"
+        winningNumberString := strings.Split(numbers, "|")[0]
+        // ["", "41", "48", "83", "86", "17"]
+        winningNumbers := strings.Split(winningNumberString, " ")
+        for _, num := range winningNumbers </span><span class="cov8" title="1">{
+                if num == "" || num == " " </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">unparsedCard.winningNumbers = append(unparsedCard.winningNumbers, num)</span>
+        }
+
+        // " 83 86  6 31 17  9 48 53"
+        <span class="cov8" title="1">haveNumberString := strings.Split(numbers, "|")[1]
+        // ["", "83", "86", "", "6", "31", "17", "", "9", "48", "53"]
+        haveNumbers := strings.Split(haveNumberString, " ")
+        for _, num := range haveNumbers </span><span class="cov8" title="1">{
+                if num == "" || num == " " </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">unparsedCard.haveNumbers = append(unparsedCard.haveNumbers, num)</span>
+        }
+
+        <span class="cov8" title="1">return unparsedCard.parse()</span>
+}
+
+func processCards(dict map[int]Card, cards []Card) int <span class="cov8" title="1">{
+        for i := 0; i &lt; len(cards); i++ </span><span class="cov8" title="1">{
+                card := cards[i]
+                matchCount := calculateNumberOfMatches(card)
+                for j := card.id + 1; j &lt; (card.id + 1 + matchCount); j++ </span><span class="cov8" title="1">{
+                        copyCard := dict[j]
+                        cards = append(cards, copyCard)
+                }</span>
+        }
+
+        <span class="cov8" title="1">return len(cards)</span>
+}
+
+func calculateNumberOfMatches(card Card) int <span class="cov8" title="1">{
+        matchCount := 0
+        for _, winningNumber := range card.winningNumbers </span><span class="cov8" title="1">{
+                if slices.Contains(card.haveNumbers, winningNumber) </span><span class="cov8" title="1">{
+                        matchCount++
+                }</span>
+        }
+
+        <span class="cov8" title="1">return matchCount</span>
+}
+</pre>
+		
+		<pre class="file" id="file6" style="display: none">package part_01
+
+import (
+        "os"
+        "strconv"
+        "strings"
+)
+
+const USE_SAMPLE = false
+
+/**
+ * Tried:
+ * - 72128 (too low)
+ * - 3317888 (correct!)
+ */
+func Solve() <span class="cov0" title="0">{
+        var filePath string
+        if USE_SAMPLE </span><span class="cov0" title="0">{
+                filePath = "./assets/day_06_part_01_sample.txt"
+        }</span> else<span class="cov0" title="0"> {
+                filePath = "./assets/day_06.txt"
+        }</span>
+        <span class="cov0" title="0">contents, _ := os.ReadFile(filePath)
+
+        lines := strings.Split(string(contents), "\r\n")
+
+        timeLine := lines[0]
+        times := parseTimeLine(timeLine)
+
+        distLine := lines[1]
+        distances := parseDistanceLine(distLine)
+
+        answer := calculateAnswer(times, distances)
+
+        println(answer)</span>
+}
+
+func parseTimeLine(timeLine string) []int <span class="cov8" title="1">{
+        prefix := "Time:"
+        return parseLine(prefix, timeLine)
+}</span>
+
+func parseDistanceLine(distLine string) []int <span class="cov8" title="1">{
+        prefix := "Distance:"
+        return parseLine(prefix, distLine)
+}</span>
+
+func parseLine(prefix string, line string) []int <span class="cov8" title="1">{
+        withoutTitle := strings.TrimPrefix(line, prefix)
+
+        numbers := []int{}
+        for _, number := range strings.Split(withoutTitle, " ") </span><span class="cov8" title="1">{
+                if number == "" </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">numberInt, _ := strconv.Atoi(number)
+                numbers = append(numbers, numberInt)</span>
+        }
+        <span class="cov8" title="1">return numbers</span>
+}
+
+func calculateAnswer(times []int, distances []int) int <span class="cov8" title="1">{
+        answer := 1
+        for i, maxTime := range times </span><span class="cov8" title="1">{
+                recordDistance := distances[i]
+
+                var greaterThanRecord []int
+                for buttonPressedFor := 0; buttonPressedFor &lt;= maxTime; buttonPressedFor++ </span><span class="cov8" title="1">{
+                        distance := calculateDistance(buttonPressedFor, maxTime)
+                        if distance &gt; recordDistance </span><span class="cov8" title="1">{
+                                greaterThanRecord = append(greaterThanRecord, distance)
+                        }</span>
+                }
+
+                <span class="cov8" title="1">if len(greaterThanRecord) &gt; 0 </span><span class="cov8" title="1">{
+                        answer *= len(greaterThanRecord)
+                }</span>
+        }
+
+        <span class="cov8" title="1">return answer</span>
+}
+
+func calculateDistance(buttonPressedFor int, maxTime int) int <span class="cov8" title="1">{
+        return buttonPressedFor * (maxTime - buttonPressedFor)
+}</span>
+</pre>
+		
+		<pre class="file" id="file7" style="display: none">package part_02
+
+import (
+        "os"
+        "strconv"
+        "strings"
+)
+
+const USE_SAMPLE = false
+
+/**
+ * Tried:
+ * - 24655068 (correct!)
+ */
+func Solve() <span class="cov0" title="0">{
+        var filePath string
+        if USE_SAMPLE </span><span class="cov0" title="0">{
+                filePath = "./assets/day_06_part_02_sample.txt"
+        }</span> else<span class="cov0" title="0"> {
+                filePath = "./assets/day_06.txt"
+        }</span>
+        <span class="cov0" title="0">contents, _ := os.ReadFile(filePath)
+
+        lines := strings.Split(string(contents), "\r\n")
+
+        timeLine := lines[0]
+        time := parseTimeLine(timeLine)
+
+        distLine := lines[1]
+        distance := parseDistanceLine(distLine)
+
+        answer := calculateAnswer(time, distance)
+
+        println(answer)</span>
+}
+
+func parseTimeLine(timeLine string) int <span class="cov8" title="1">{
+        prefix := "Time:"
+        return parseLine(prefix, timeLine)
+}</span>
+
+func parseDistanceLine(distLine string) int <span class="cov8" title="1">{
+        prefix := "Distance:"
+        return parseLine(prefix, distLine)
+}</span>
+
+func parseLine(prefix string, line string) int <span class="cov8" title="1">{
+        withoutTitle := strings.TrimPrefix(line, prefix)
+
+        numbers := []string{}
+        for _, number := range strings.Split(withoutTitle, " ") </span><span class="cov8" title="1">{
+                if number == "" </span><span class="cov8" title="1">{
+                        continue</span>
+                }
+                <span class="cov8" title="1">numbers = append(numbers, number)</span>
+        }
+
+        <span class="cov8" title="1">number := strings.Join(numbers, "")
+        numberInt, err := strconv.Atoi(number)
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov8" title="1">return numberInt</span>
+}
+
+func calculateAnswer(maxTime int, recordDistance int) int <span class="cov8" title="1">{
+        var greaterThanRecord []int
+        for buttonPressedFor := 0; buttonPressedFor &lt;= maxTime; buttonPressedFor++ </span><span class="cov8" title="1">{
+                distance := calculateDistance(buttonPressedFor, maxTime)
+                if distance &gt; recordDistance </span><span class="cov8" title="1">{
+                        greaterThanRecord = append(greaterThanRecord, distance)
+                }</span>
+        }
+
+        <span class="cov8" title="1">return len(greaterThanRecord)</span>
+}
+
+func calculateDistance(buttonPressedFor int, maxTime int) int <span class="cov8" title="1">{
+        return buttonPressedFor * (maxTime - buttonPressedFor)
+}</span>
+</pre>
+		
+		<pre class="file" id="file8" style="display: none">package part_01
+
+import (
+        "os"
+        "strconv"
+        "strings"
+)
+
+const USE_SAMPLE = false
+
+type handType int
+
+const (
+        HIGH_CARD handType = iota
+        PAIR
+        TWO_PAIR
+        THREE_OF_A_KIND
+        FULL_HOUSE
+        FOUR_OF_A_KIND
+        FIVE_OF_A_KIND
+)
+
+func (h handType) String() string <span class="cov8" title="1">{
+        return [...]string{"HIGH_CARD", "PAIR", "TWO_PAIR", "THREE_OF_A_KIND", "FULL_HOUSE", "FOUR_OF_A_KIND", "FIVE_OF_A_KIND"}[h]
+}</span>
+
+type cardType int
+
+const (
+        TWO cardType = iota
+        THREE
+        FOUR
+        FIVE
+        SIX
+        SEVEN
+        EIGHT
+        NINE
+        TEN
+        JACK
+        QUEEN
+        KING
+        ACE
+)
+
+func (c cardType) String() string <span class="cov0" title="0">{
+        return [...]string{"TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "JACK", "QUEEN", "KING", "ACE"}[c]
+}</span>
+
+type hand struct {
+        strength handType
+        cards    []cardType
+        bet      int
+}
+
+/**
+ * Tried:
+ * - 252489894 (too high)
+ * - 229176554 (too low)
+ * - 200253108 (too low)
+ */
+func Solve() <span class="cov0" title="0">{
+        var filePath string
+        if USE_SAMPLE </span><span class="cov0" title="0">{
+                filePath = "./assets/day_07_part_01_sample.txt"
+        }</span> else<span class="cov0" title="0"> {
+                filePath = "./assets/day_07.txt"
+        }</span>
+        <span class="cov0" title="0">contents, err := os.ReadFile(filePath)
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov0" title="0">lines := strings.Split(string(contents), "\r\n")
+        var hands []hand
+        for _, line := range lines </span><span class="cov0" title="0">{
+                if line == "" </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">hands = append(hands, parseLine(line))</span>
+        }
+
+        <span class="cov0" title="0">mappedByStrength := mapByStrength(hands)
+
+        sortedByHighest := make(map[handType][]hand)
+        for _, strength := range []handType{HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, FULL_HOUSE, FOUR_OF_A_KIND, FIVE_OF_A_KIND} </span><span class="cov0" title="0">{
+                if _, ok := mappedByStrength[strength]; !ok </span><span class="cov0" title="0">{
+                        continue</span>
+                }
+
+                <span class="cov0" title="0">toBeSorted := mappedByStrength[strength]
+                sortedByHighest[strength] = sortByHighest(toBeSorted)</span>
+        }
+
+        <span class="cov0" title="0">flattened := flatten(sortedByHighest)
+
+        answer := calculateWinnings(flattened)
+
+        println("Answer: ", answer)</span>
+}
+
+func parseLine(line string) hand <span class="cov8" title="1">{
+        parts := strings.Split(line, " ")
+
+        unparsedCards := strings.Split(parts[0], "")
+        cards := parseCards(unparsedCards)
+        strength := calculateStrength(cards)
+
+        bet, err := strconv.Atoi(parts[1])
+        if err != nil </span><span class="cov0" title="0">{
+                panic(err)</span>
+        }
+
+        <span class="cov8" title="1">return hand{
+                strength,
+                cards,
+                bet,
+        }</span>
+}
+
+func parseCards(unparsedCards []string) []cardType <span class="cov8" title="1">{
+        var cards []cardType
+        for _, card := range unparsedCards </span><span class="cov8" title="1">{
+                switch card </span>{
+                case "2":<span class="cov8" title="1">
+                        cards = append(cards, TWO)</span>
+                case "3":<span class="cov8" title="1">
+                        cards = append(cards, THREE)</span>
+                case "4":<span class="cov0" title="0">
+                        cards = append(cards, FOUR)</span>
+                case "5":<span class="cov8" title="1">
+                        cards = append(cards, FIVE)</span>
+                case "6":<span class="cov8" title="1">
+                        cards = append(cards, SIX)</span>
+                case "7":<span class="cov8" title="1">
+                        cards = append(cards, SEVEN)</span>
+                case "8":<span class="cov0" title="0">
+                        cards = append(cards, EIGHT)</span>
+                case "9":<span class="cov0" title="0">
+                        cards = append(cards, NINE)</span>
+                case "T":<span class="cov8" title="1">
+                        cards = append(cards, TEN)</span>
+                case "J":<span class="cov8" title="1">
+                        cards = append(cards, JACK)</span>
+                case "Q":<span class="cov8" title="1">
+                        cards = append(cards, QUEEN)</span>
+                case "K":<span class="cov8" title="1">
+                        cards = append(cards, KING)</span>
+                case "A":<span class="cov8" title="1">
+                        cards = append(cards, ACE)</span>
+                }
+        }
+        <span class="cov8" title="1">return cards</span>
+}
+
+func calculateStrength(cards []cardType) handType <span class="cov8" title="1">{
+        strength := map[cardType]int{}
+        for _, card := range cards </span><span class="cov8" title="1">{
+                if _, ok := strength[card]; !ok </span><span class="cov8" title="1">{
+                        strength[card] = 0
+                }</span>
+                <span class="cov8" title="1">strength[card]++</span>
+        }
+
+        <span class="cov8" title="1">var pairs int
+        var hasThreeOfAKind bool
+        for _, count := range strength </span><span class="cov8" title="1">{
+                if count == 5 </span><span class="cov0" title="0">{
+                        return FIVE_OF_A_KIND
+                }</span>
+
+                <span class="cov8" title="1">if count == 4 </span><span class="cov0" title="0">{
+                        return FOUR_OF_A_KIND
+                }</span>
+
+                <span class="cov8" title="1">if count == 3 </span><span class="cov8" title="1">{
+                        hasThreeOfAKind = true
+                }</span>
+
+                <span class="cov8" title="1">if count == 2 </span><span class="cov8" title="1">{
+                        pairs++
+                }</span>
+        }
+
+        <span class="cov8" title="1">if hasThreeOfAKind &amp;&amp; pairs == 1 </span><span class="cov8" title="1">{
+                return FULL_HOUSE
+        }</span>
+
+        <span class="cov8" title="1">if hasThreeOfAKind </span><span class="cov8" title="1">{
+                return THREE_OF_A_KIND
+        }</span>
+
+        <span class="cov8" title="1">if pairs == 2 </span><span class="cov8" title="1">{
+                return TWO_PAIR
+        }</span>
+
+        <span class="cov8" title="1">if pairs == 1 </span><span class="cov8" title="1">{
+                return PAIR
+        }</span>
+
+        <span class="cov0" title="0">return HIGH_CARD</span>
+}
+
+func mapByStrength(hands []hand) map[handType][]hand <span class="cov8" title="1">{
+
+        handsByStrength := make(map[handType][]hand)
+        for _, hand := range hands </span><span class="cov8" title="1">{
+                handsByStrength[hand.strength] = append(handsByStrength[hand.strength], hand)
+        }</span>
+
+        <span class="cov8" title="1">return handsByStrength</span>
+}
+
+// low to high
+func sortByHighest(hands []hand) []hand <span class="cov8" title="1">{
+        var partition func(arr []hand, low, high int) ([]hand, int)
+        partition = func(arr []hand, low, high int) ([]hand, int) </span><span class="cov8" title="1">{
+                pivot := arr[high]
+                index := low
+
+                for i := low; i &lt; high; i++ </span><span class="cov8" title="1">{
+                        // Always 5 cards
+                        for j := 0; j &lt; 5; j++ </span><span class="cov8" title="1">{
+                                if arr[i].cards[j] &lt; pivot.cards[j] </span><span class="cov8" title="1">{
+                                        arr[i], arr[index] = arr[index], arr[i]
+                                        index++
+                                        break</span>
+                                }
+
+                                <span class="cov8" title="1">if arr[i].cards[j] != pivot.cards[j] </span><span class="cov8" title="1">{
+                                        break</span>
+                                }
+                        }
+                }
+
+                <span class="cov8" title="1">arr[high], arr[index] = arr[index], arr[high]
+
+                return arr, index</span>
+        }
+
+        <span class="cov8" title="1">var quickSort func(arr []hand, low, high int) []hand
+        quickSort = func(arr []hand, low, high int) []hand </span><span class="cov8" title="1">{
+                if low &lt; high </span><span class="cov8" title="1">{
+                        arr, pivot := partition(arr, low, high)
+
+                        quickSort(arr, low, pivot-1)
+                        quickSort(arr, pivot+1, high)
+                }</span>
+
+                <span class="cov8" title="1">return arr</span>
+        }
+
+        <span class="cov8" title="1">hands = quickSort(hands, 0, len(hands)-1)
+
+        return hands</span>
+}
+
+func flatten(hands map[handType][]hand) []hand <span class="cov8" title="1">{
+        var flat []hand
+        for _, handType := range []handType{HIGH_CARD, PAIR, TWO_PAIR, THREE_OF_A_KIND, FULL_HOUSE, FOUR_OF_A_KIND, FIVE_OF_A_KIND} </span><span class="cov8" title="1">{
+                flat = append(flat, hands[handType]...)
+        }</span>
+        <span class="cov8" title="1">return flat</span>
+}
+
+func calculateWinnings(hands []hand) int <span class="cov8" title="1">{
+        var winnings int
+        for i, hand := range hands </span><span class="cov8" title="1">{
+                earned := hand.bet * (i + 1)
+                winnings += earned
+                println("hand ", i, ": { strength: ", hand.strength.String(), ", cards: [", hand.cards[0], hand.cards[1], hand.cards[2], hand.cards[3], hand.cards[4], "], earned: ", earned, " }")
+        }</span>
+        <span class="cov8" title="1">return winnings</span>
+}
+</pre>
+		
+		<pre class="file" id="file9" style="display: none">package main
+
+import (
+        "flag"
+        "os"
+
+        "github.com/DJOLEARY/AoC_2023/internal/day_01"
+        day_02_part_01 "github.com/DJOLEARY/AoC_2023/internal/day_02/part_01"
+        day_02_part_02 "github.com/DJOLEARY/AoC_2023/internal/day_02/part_02"
+        day_03_part_01 "github.com/DJOLEARY/AoC_2023/internal/day_03/part_01"
+        day_04_part_01 "github.com/DJOLEARY/AoC_2023/internal/day_04/part_01"
+        day_04_part_02 "github.com/DJOLEARY/AoC_2023/internal/day_04/part_02"
+        day_06_part_01 "github.com/DJOLEARY/AoC_2023/internal/day_06/part_01"
+        day_06_part_02 "github.com/DJOLEARY/AoC_2023/internal/day_06/part_02"
+        day_07_part_01 "github.com/DJOLEARY/AoC_2023/internal/day_07/part_01"
+)
+
+func main() <span class="cov0" title="0">{
+        day := flag.Int("day", 1, "Day to run")
+        part := flag.Int("part", 2, "Part to run, must be 1 or 2")
+
+        flag.Parse()
+
+        if *part &lt; 1 || *part &gt; 2 </span><span class="cov0" title="0">{
+                println("Invalid part number, must be 1 or 2")
+                os.Exit(1)
+        }</span>
+
+        <span class="cov0" title="0">switch *day </span>{
+        case 1:<span class="cov0" title="0">
+                switch *part </span>{
+                case 1:<span class="cov0" title="0">
+                        println("Day 1 part 1 not implemented")
+                        os.Exit(1)</span>
+                case 2:<span class="cov0" title="0">
+                        day_01.Solve()</span>
+                }
+
+        case 2:<span class="cov0" title="0">
+                switch *part </span>{
+                case 1:<span class="cov0" title="0">
+                        day_02_part_01.Solve()</span>
+                case 2:<span class="cov0" title="0">
+                        day_02_part_02.Solve()</span>
+                }
+
+        case 3:<span class="cov0" title="0">
+                switch *part </span>{
+                case 1:<span class="cov0" title="0">
+                        day_03_part_01.Solve()</span>
+                case 2:<span class="cov0" title="0">
+                        println("Day 3 part 2 not implemented")
+                        os.Exit(1)</span>
+                }
+
+        case 4:<span class="cov0" title="0">
+                switch *part </span>{
+                case 1:<span class="cov0" title="0">
+                        day_04_part_01.Solve()</span>
+                case 2:<span class="cov0" title="0">
+                        day_04_part_02.Solve()</span>
+                }
+
+        case 6:<span class="cov0" title="0">
+                switch *part </span>{
+                case 1:<span class="cov0" title="0">
+                        day_06_part_01.Solve()</span>
+                case 2:<span class="cov0" title="0">
+                        day_06_part_02.Solve()</span>
+                }
+
+        case 7:<span class="cov0" title="0">
+                switch *part </span>{
+                case 1:<span class="cov0" title="0">
+                        day_07_part_01.Solve()</span>
+                case 2:<span class="cov0" title="0">
+                        println("Day 7 part 2 not implemented")
+                        os.Exit(1)</span>
+                }
+
+        default:<span class="cov0" title="0">
+                println("Day not implemented")
+                os.Exit(1)</span>
+        }
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
