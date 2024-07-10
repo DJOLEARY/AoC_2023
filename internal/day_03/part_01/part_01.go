@@ -113,7 +113,7 @@ func checkValidity(lines []string, x int, y int, numOfDigits int) bool {
 				continue
 			}
 
-			debugLine = ""
+			debugLine = "" //nolint:ineffassign // Only used for debugging and needs to be reset
 
 			return true
 		}
