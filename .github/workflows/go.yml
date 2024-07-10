@@ -25,7 +25,7 @@ jobs:
       run: go test -v -json ./... > test_results.json
 
     - name: Upload results
-      uses: actions/upload-artifacts@v4
+      uses: actions/upload-artifact@v4
       with:
         name: test_results
         path: test_results.json
